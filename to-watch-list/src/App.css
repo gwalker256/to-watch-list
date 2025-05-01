@@ -1,133 +1,211 @@
-/* App.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
+/* Dark Theme with Pink Text */
 .App {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 20px; /* Space from top */
+  font-family: 'Poppins', sans-serif; /* Replace Arial with Poppins */
+  text-align: center;
+  background-color: #121212;
+  padding: 20px;
   min-height: 100vh;
-  background-color: #f9f9f9; /* optional: a nice light background */
+  color: #ff79c6; /* Pink text */
 }
 
-
 h1 {
-  color: #333;
+  font-size: 2.5rem;
+  color: #ff79c6;
   margin-bottom: 20px;
+  text-shadow: 0 0 8px rgba(255, 121, 198, 0.3);
 }
 
 h2 {
-  color: #555;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  color: #ff79c6;
+  margin-bottom: 20px;
 }
 
+/* Auth Container */
+.auth-container {
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: #1e1e1e;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  border: 1px solid #333;
+}
+
+/* Input Fields */
 input {
-  padding: 10px;
-  width: 80%;
-  margin-right: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #444;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #2d2d2d;
+  color: #ff79c6;
+  transition: all 0.3s ease;
 }
 
+input:focus {
+  border-color: #bd93f9;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(189, 147, 249, 0.3);
+}
+
+/* Buttons */
 button {
-  padding: 10px 15px;
-  background-color: #007bff;
-  color: white;
+  padding: 10px 20px;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 6px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  background-color: #bd93f9; /* Purple */
+  color: #282a36; /* Dark text */
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif; /* Apply Poppins to buttons too */
+  font-weight: 500; /* Medium weight */
 }
 
 button:hover {
-  background-color: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-button:active {
-  background-color: #003366;
+/* Welcome Section */
+.welcome-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
 }
 
-button:focus {
-  outline: none;
+.welcome-container p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #ff79c6;
 }
 
+.sign-out {
+  background-color: #ff5555;
+  color: white;
+}
+
+/* List Containers */
 .lists-container {
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  max-width: 1000px;
+  flex-wrap: wrap;
   gap: 20px;
 }
 
 .list-section {
-  width: 48%; /* Each list will take up approximately 50% of the screen */
-  background-color: #fff;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 300px;
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+}
+
+.input-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
+/* List Items */
 ul {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
-  width: 100%;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  margin-top: 10px;
+  margin: 0;
 }
-
 
 li {
-  background-color: #e9ecef;
-  padding: 10px;
-  margin: 8px 0;
-  border-radius: 5px;
-  transition: background-color 0.3s;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 12px 15px;
+  margin-bottom: 12px;
+  background-color: #2d2d2d;
+  border-radius: 6px;
+  border: 1px solid #444;
+  transition: all 0.2s ease;
 }
 
 li:hover {
-  background-color: #d4dbdf;
+  background-color: #3a3a3a;
+}
+
+.content-wrapper {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 15px;
+  text-align: left;
+  color: #ff79c6;
+}
+
+.button-container {
+  display: flex;
+  gap: 8px;
+}
+
+/* Special Buttons */
+.edit-btn {
+  background-color: #ff9ff3; /* Soft pink */
+  color: #0d0d0d; /* Dark text */
+  border: 1px solid #ff79c6; /* Pink border */
+}
+
+.edit-btn:hover {
+  background-color: #ff79c6; /* Brighter pink on hover */
+}
+
+.save-btn {
+  background-color: #50fa7b; /* Mint Green */
+  color: #282a36;
 }
 
 .remove-btn {
   background: none;
   border: none;
-  color: red;
-  font-size: 20px;
+  color: #ff5555;
+  font-size: 1.3rem;
   cursor: pointer;
-  transition: color 0.3s;
+  padding: 0 5px;
+  transition: transform 0.2s;
 }
 
 .remove-btn:hover {
-  color: darkred;
+  transform: scale(1.2);
 }
 
-.remove-btn:focus {
-  outline: none;
-}
-
-/* Mobile-specific Styles */
+/* Responsive Design */
 @media (max-width: 768px) {
   .lists-container {
     flex-direction: column;
   }
-
+  
   .list-section {
     width: 100%;
-    margin-bottom: 20px;
   }
+}
 
-  input {
-    width: 70%; /* Make input fields a bit larger on mobile */
-  }
+/* Glow Effects */
+@keyframes subtleGlow {
+  0% { text-shadow: 0 0 8px rgba(255, 121, 198, 0.3); }
+  50% { text-shadow: 0 0 12px rgba(255, 121, 198, 0.5); }
+  100% { text-shadow: 0 0 8px rgba(255, 121, 198, 0.3); }
+}
+
+h1 {
+  animation: subtleGlow 3s ease-in-out infinite;
 }
