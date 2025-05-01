@@ -25,12 +25,15 @@ function App() {
 
     const qMovies = query(collection(db, 'movies'), orderBy('value'));
     const unsubscribeMovies = onSnapshot(qMovies, (snapshot) => {
-      setMovieList(snapshot.docs.map((doc) => ({ id: doc.id, value: doc.data().value })));
+      setMovieList(snapshot.docs.map((doc) => ({ id: doc.id, value: doc.data().value }))
+        .sort((a, b) => a.value.toLowerCase().localeCompare(b.value.toLowerCase())));
     });
+    
 
     const qTvShows = query(collection(db, 'tvShows'), orderBy('value'));
     const unsubscribeTvShows = onSnapshot(qTvShows, (snapshot) => {
-      setTvShowList(snapshot.docs.map((doc) => ({ id: doc.id, value: doc.data().value })));
+      setTvShowList(snapshot.docs.map((doc) => ({ id: doc.id, value: doc.data().value }))
+        .sort((a, b) => a.value.toLowerCase().localeCompare(b.value.toLowerCase())));
     });
 
     return () => {
