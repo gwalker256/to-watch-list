@@ -1,0 +1,133 @@
+/* App.css */
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px; /* Space from top */
+  min-height: 100vh;
+  background-color: #f9f9f9; /* optional: a nice light background */
+}
+
+
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: #555;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+input {
+  padding: 10px;
+  width: 80%;
+  margin-right: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:active {
+  background-color: #003366;
+}
+
+button:focus {
+  outline: none;
+}
+
+.lists-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1000px;
+  gap: 20px;
+}
+
+.list-section {
+  width: 48%; /* Each list will take up approximately 50% of the screen */
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-top: 10px;
+}
+
+
+li {
+  background-color: #e9ecef;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+li:hover {
+  background-color: #d4dbdf;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.remove-btn:hover {
+  color: darkred;
+}
+
+.remove-btn:focus {
+  outline: none;
+}
+
+/* Mobile-specific Styles */
+@media (max-width: 768px) {
+  .lists-container {
+    flex-direction: column;
+  }
+
+  .list-section {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  input {
+    width: 70%; /* Make input fields a bit larger on mobile */
+  }
+}
