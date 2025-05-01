@@ -23,17 +23,14 @@ function App() {
       setUser(currentUser);
     });
 
-    const qMovies = query(collection(db, 'movies'), orderBy('value'));
+    const qMovies = query(collection(db, 'movies'), orderBy('value_lowercase'));
     const unsubscribeMovies = onSnapshot(qMovies, (snapshot) => {
-      setMovieList(snapshot.docs.map((doc) => ({ id: doc.id, value: doc.data().value }))
-        .sort((a, b) => a.value.toLowerCase().localeCompare(b.value.toLowerCase())));
+      setMovieList(snapshot.docs.map((doc) => ({ id: doc.id, value: doc.data().value })));
     });
-    
 
-    const qTvShows = query(collection(db, 'tvShows'), orderBy('value'));
+    const qTvShows = query(collection(db, 'tvShows'), orderBy('value_lowercase'));
     const unsubscribeTvShows = onSnapshot(qTvShows, (snapshot) => {
-      setTvShowList(snapshot.docs.map((doc) => ({ id: doc.id, value: doc.data().value }))
-        .sort((a, b) => a.value.toLowerCase().localeCompare(b.value.toLowerCase())));
+      setTvShowList(snapshot.docs.map((doc) => ({ id: doc.id, value: doc.data().value })));
     });
 
     return () => {
@@ -64,14 +61,20 @@ function App() {
 
   const handleAddMovie = async () => {
     if (movieInput.trim() !== '') {
-      await addDoc(collection(db, 'movies'), { value: movieInput.trim() });
+      await addDoc(collection(db, 'movies'), { 
+        value: movieInput.trim(),
+        value_lowercase: movieInput.trim().toLowerCase()
+      });
       setMovieInput('');
     }
   };
 
   const handleAddTvShow = async () => {
     if (tvShowInput.trim() !== '') {
-      await addDoc(collection(db, 'tvShows'), { value: tvShowInput.trim() });
+      await addDoc(collection(db, 'tvShows'), { 
+        value: tvShowInput.trim(),
+        value_lowercase: tvShowInput.trim().toLowerCase()
+      });
       setTvShowInput('');
     }
   };
@@ -91,7 +94,10 @@ function App() {
 
   const handleSaveMovieEdit = async () => {
     if (editedMovieValue.trim() !== '') {
-      await updateDoc(doc(db, 'movies', editingMovieId), { value: editedMovieValue.trim() });
+      await updateDoc(doc(db, 'movies', editingMovieId), { 
+        value: editedMovieValue.trim(),
+        value_lowercase: editedMovieValue.trim().toLowerCase()
+      });
       setEditingMovieId(null);
       setEditedMovieValue('');
     }
@@ -104,7 +110,10 @@ function App() {
 
   const handleSaveTvShowEdit = async () => {
     if (editedTvShowValue.trim() !== '') {
-      await updateDoc(doc(db, 'tvShows', editingTvShowId), { value: editedTvShowValue.trim() });
+      await updateDoc(doc(db, 'tvShows', editingTvShowId), { 
+        value: editedTvShowValue.trim(),
+        value_lowercase: editedTvShowValue.trim().toLowerCase()
+      });
       setEditingTvShowId(null);
       setEditedTvShowValue('');
     }
