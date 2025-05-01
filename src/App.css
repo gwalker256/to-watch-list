@@ -1,49 +1,52 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-/* Dark Theme with Pink Text */
+/* Dark Theme with Pink Text - Fully Responsive */
 .App {
-  font-family: 'Poppins', sans-serif; /* Replace Arial with Poppins */
+  font-family: 'Poppins', sans-serif;
   text-align: center;
   background-color: #121212;
-  padding: 20px;
+  padding: 15px;
   min-height: 100vh;
-  color: #ff79c6; /* Pink text */
+  color: #ff79c6;
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
   color: #ff79c6;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   text-shadow: 0 0 8px rgba(255, 121, 198, 0.3);
+  animation: subtleGlow 3s ease-in-out infinite;
 }
 
 h2 {
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
   color: #ff79c6;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 /* Auth Container */
 .auth-container {
-  max-width: 400px;
+  width: 100%;
+  max-width: 320px;
   margin: 0 auto;
   background-color: #1e1e1e;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   border: 1px solid #333;
 }
 
 /* Input Fields */
 input {
   width: 100%;
-  padding: 12px;
-  margin: 10px 0;
+  padding: 10px;
+  margin: 8px 0;
   border: 1px solid #444;
-  border-radius: 6px;
-  font-size: 1rem;
+  border-radius: 5px;
+  font-size: clamp(0.8rem, 3vw, 0.9rem);
   background-color: #2d2d2d;
   color: #ff79c6;
-  transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 input:focus {
@@ -54,70 +57,109 @@ input:focus {
 
 /* Buttons */
 button {
-  padding: 10px 20px;
+  padding: 10px;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
+  border-radius: 5px;
+  font-size: clamp(0.8rem, 3vw, 0.9rem);
   cursor: pointer;
-  transition: all 0.3s ease;
-  background-color: #bd93f9; /* Purple */
-  color: #282a36; /* Dark text */
-  font-weight: bold;
-  font-family: 'Poppins', sans-serif; /* Apply Poppins to buttons too */
-  font-weight: 500; /* Medium weight */
+  transition: all 0.2s ease;
+  background-color: #bd93f9;
+  color: #282a36;
+  font-weight: 500;
+  box-sizing: border-box;
+  line-height: 1;
 }
 
 button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.input-container {
+  display: flex;
+  align-items: center; /* Ensures vertical centering */
+}
+
+.input-container input,
+.input-container button {
+  height: 42px;
+  font-size: 0.9rem;
+  padding: 10px;
+  border: 1px solid #444;
+  box-sizing: border-box;
+}
+
+.input-container input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-right: -1px;
+}
+
+.input-container button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  background-color: #bd93f9;
+  color: #282a36;
+  font-weight: 500;
+  line-height: 1; /* Prevent vertical shifting */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+@media (max-width: 375px) {
+  .input-container {
+    flex-direction: column;
+  }
+
+  .input-container input,
+  .input-container button {
+    border-radius: 5px;
+    margin-right: 0;
+  }
 }
 
 /* Welcome Section */
 .welcome-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
-  padding: 15px;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding: 12px;
   background-color: #1e1e1e;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   border: 1px solid #333;
 }
 
 .welcome-container p {
   margin: 0;
-  font-size: 1.1rem;
-  color: #ff79c6;
+  font-size: 1rem;
 }
 
 .sign-out {
   background-color: #ff5555;
   color: white;
+  width: 100%;
+  max-width: 120px;
 }
 
-/* List Containers */
+/* Lists Container */
 .lists-container {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
 }
 
 .list-section {
-  flex: 1;
-  min-width: 300px;
+  width: 100%;
   background-color: #1e1e1e;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 8px;
   border: 1px solid #333;
-}
-
-.input-container {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
+  box-sizing: border-box;
 }
 
 /* List Items */
@@ -131,16 +173,11 @@ li {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 15px;
-  margin-bottom: 12px;
+  padding: 6px 8px;
+  margin-bottom: 6px;
   background-color: #2d2d2d;
-  border-radius: 6px;
+  border-radius: 5px;
   border: 1px solid #444;
-  transition: all 0.2s ease;
-}
-
-li:hover {
-  background-color: #3a3a3a;
 }
 
 .content-wrapper {
@@ -148,64 +185,63 @@ li:hover {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  padding-right: 15px;
-  text-align: left;
-  color: #ff79c6;
+  padding-right: 8px;
+  font-size: 0.9rem;
 }
 
 .button-container {
   display: flex;
-  gap: 8px;
+  gap: 5px;
 }
 
 /* Special Buttons */
 .edit-btn {
-  background-color: #ff9ff3; /* Soft pink */
-  color: #0d0d0d; /* Dark text */
-  border: 1px solid #ff79c6; /* Pink border */
-}
-
-.edit-btn:hover {
-  background-color: #ff79c6; /* Brighter pink on hover */
+  background-color: #ff9ff3;
+  color: #0d0d0d;
+  padding: 4px 8px;
+  font-size: 0.8rem;
 }
 
 .save-btn {
-  background-color: #50fa7b; /* Mint Green */
-  color: #282a36;
+  background-color: #50fa7b;
+  padding: 4px 8px;
 }
 
 .remove-btn {
   background: none;
   border: none;
   color: #ff5555;
-  font-size: 1.3rem;
-  cursor: pointer;
-  padding: 0 5px;
-  transition: transform 0.2s;
+  font-size: 0.9rem;
+  padding: 0 3px;
 }
 
-.remove-btn:hover {
-  transform: scale(1.2);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Tablet/Desktop Layout */
+@media (min-width: 768px) {
   .lists-container {
-    flex-direction: column;
+    flex-direction: row;
   }
-  
+
   .list-section {
-    width: 100%;
+    width: calc(50% - 10px);
+  }
+
+  .welcome-container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .sign-out {
+    width: auto;
   }
 }
 
-/* Glow Effects */
+/* Glow Animation */
 @keyframes subtleGlow {
   0% { text-shadow: 0 0 8px rgba(255, 121, 198, 0.3); }
   50% { text-shadow: 0 0 12px rgba(255, 121, 198, 0.5); }
   100% { text-shadow: 0 0 8px rgba(255, 121, 198, 0.3); }
 }
 
-h1 {
-  animation: subtleGlow 3s ease-in-out infinite;
+input::placeholder {
+  font-size: 0.85rem;
 }
