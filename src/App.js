@@ -121,7 +121,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>To-Watch List</h1>
+      <h1>To Watch List</h1>
 
       {user ? (
         <div>
