@@ -34,6 +34,10 @@ jobs:
       - name: Verify service account file exists
         run: ls -la service-account.json
 
+      # Debugging step: Print the first few lines of the service account file to check the content
+      - name: Display service account file content
+        run: head -n 10 service-account.json  # Prints first 10 lines for verification
+
       # Run the Firestore export script
       - name: Run Firestore backup
         env:
