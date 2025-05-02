@@ -225,13 +225,6 @@ button {
 
 }
 
-/* Force the button to use a specific background-color in dark mode */
-@media (prefers-color-scheme: dark) {
-  .edit-btn {
-    background-color: #bd93f9 !important; /* Set to #bd93f9 in dark mode */
-  
-  }
-}
 
 
 .edit-btn:hover {
@@ -343,9 +336,11 @@ button {
 
 @media (prefers-color-scheme: dark) {
   .edit-btn {
-    background: linear-gradient(135deg, #ff79c6, #ffb6e6) !important;
+    /* background: linear-gradient(135deg, #ff79c6, #ffb6e6) !important; */
+    background-color: #bd93f9!important;
+    color: #282a36!important;
     color: #0d0d0d !important;
-    box-shadow: 0 2px 6px rgba(255, 121, 198, 0.4) !important;
+    /* box-shadow: 0 2px 6px rgba(255, 121, 198, 0.4) !important; */
   }
 }
 
