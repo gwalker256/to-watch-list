@@ -1,9 +1,9 @@
+// ...imports remain unchanged
 import React, { useState, useEffect } from 'react';
 import { db, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, updateDoc } from './firebase';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import './App.css';
 
-// Component for movie/show item display
 const MediaItem = ({ item, expandedItem, toggleExpand, handleEdit, handleRemove, editMode, editData, handleEditChange, handleSaveEdit }) => {
   return (
     <li 
@@ -31,6 +31,12 @@ const MediaItem = ({ item, expandedItem, toggleExpand, handleEdit, handleRemove,
             onChange={(e) => handleEditChange('runtime', e.target.value)}
             placeholder="Length"
           />
+          <input
+            type="text"
+            value={editData.additionalInfo}
+            onChange={(e) => handleEditChange('additionalInfo', e.target.value)}
+            placeholder="Notes"
+          />
           <button className="save-btn" onClick={handleSaveEdit}>Save</button>
         </div>
       ) : (
@@ -42,7 +48,7 @@ const MediaItem = ({ item, expandedItem, toggleExpand, handleEdit, handleRemove,
                 className="edit-btn" 
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleEdit(item.id, item.value, item.genre, item.runtime);
+                  handleEdit(item.id, item.value, item.genre, item.runtime, item.additionalInfo);
                 }}
               >
                 Edit
@@ -68,6 +74,10 @@ const MediaItem = ({ item, expandedItem, toggleExpand, handleEdit, handleRemove,
                 <span className="detail-label">Length: </span>
                 <span className="detail-value">{item.runtime} minutes</span>
               </div>
+              <div className="detail-row">
+                <span className="detail-label">Notes: </span>
+                <span className="detail-value">{item.additionalInfo || ''}</span>
+              </div>
             </div>
           )}
         </>
@@ -76,7 +86,8 @@ const MediaItem = ({ item, expandedItem, toggleExpand, handleEdit, handleRemove,
   );
 };
 
-// Component for adding new items
+
+// AddItemForm remains unchanged (no additionalInfo field)
 const AddItemForm = ({ inputs, setInputs, handleAdd, type }) => {
   const handleChange = (field, value) => {
     setInputs({ ...inputs, [field]: value });
@@ -108,30 +119,24 @@ const AddItemForm = ({ inputs, setInputs, handleAdd, type }) => {
 };
 
 function App() {
-  // State for lists
   const [movieList, setMovieList] = useState([]);
   const [tvShowList, setTvShowList] = useState([]);
-  
-  // State for inputs
+
   const [movieInputs, setMovieInputs] = useState({ title: '', genre: '', runtime: '' });
   const [tvShowInputs, setTvShowInputs] = useState({ title: '', genre: '', runtime: '' });
-  
-  // State for authentication
+
   const [user, setUser] = useState(null);
   const [authInputs, setAuthInputs] = useState({ email: '', password: '' });
-  
-  // State for editing
+
   const [editingMovieId, setEditingMovieId] = useState(null);
   const [editingTvShowId, setEditingTvShowId] = useState(null);
-  const [editedMovie, setEditedMovie] = useState({ title: '', genre: '', runtime: '' });
-  const [editedTvShow, setEditedTvShow] = useState({ title: '', genre: '', runtime: '' });
-  
-  // State for UI
+  const [editedMovie, setEditedMovie] = useState({ title: '', genre: '', runtime: '', additionalInfo: '' });
+  const [editedTvShow, setEditedTvShow] = useState({ title: '', genre: '', runtime: '', additionalInfo: '' });
+
   const [expandedItem, setExpandedItem] = useState(null);
 
   const auth = getAuth();
 
-  // Firebase data listeners
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, setUser);
 
@@ -142,8 +147,10 @@ function App() {
           id: doc.id, 
           value: doc.data().value, 
           genre: doc.data().genre, 
-          runtime: doc.data().runtime 
+          runtime: doc.data().runtime,
+          additionalInfo: doc.data().additionalInfo || ''
         })));
+        
       });
     };
 
@@ -157,14 +164,12 @@ function App() {
     };
   }, [auth]);
 
-  // Generic helper functions
   const toggleExpand = (id) => {
     setExpandedItem(expandedItem === id ? null : id);
   };
 
   const safeStr = (value) => value || '';
 
-  // Authentication handlers
   const handleAuthChange = (field, value) => {
     setAuthInputs({ ...authInputs, [field]: value });
   };
@@ -187,20 +192,16 @@ function App() {
     }
   };
 
-  // Movie handlers
   const handleAddMovie = async () => {
     try {
-      const title = safeStr(movieInputs.title);
-      const genre = safeStr(movieInputs.genre);
-      const runtime = safeStr(movieInputs.runtime);
-
-      await addDoc(collection(db, 'movies'), { 
+      const { title, genre, runtime } = movieInputs;
+      await addDoc(collection(db, 'movies'), {
         value: title,
         value_lowercase: title.toLowerCase(),
         genre,
-        runtime
+        runtime,
+        additionalInfo: ''
       });
-      
       setMovieInputs({ title: '', genre: '', runtime: '' });
     } catch (error) {
       console.error("Error adding movie:", error);
@@ -215,12 +216,13 @@ function App() {
     }
   };
 
-  const handleEditMovie = (id, currentValue, currentGenre, currentRuntime) => {
+  const handleEditMovie = (id, currentValue, currentGenre, currentRuntime, currentAdditionalInfo) => {
     setEditingMovieId(id);
     setEditedMovie({
       title: safeStr(currentValue),
       genre: safeStr(currentGenre),
-      runtime: safeStr(currentRuntime)
+      runtime: safeStr(currentRuntime),
+      additionalInfo: safeStr(currentAdditionalInfo)
     });
     setExpandedItem(id);
   };
@@ -231,39 +233,32 @@ function App() {
 
   const handleSaveMovieEdit = async () => {
     try {
-      const title = safeStr(editedMovie.title);
-      const genre = safeStr(editedMovie.genre);
-      const runtime = safeStr(editedMovie.runtime);
-
-      await updateDoc(doc(db, 'movies', editingMovieId), { 
+      const { title, genre, runtime, additionalInfo } = editedMovie;
+      await updateDoc(doc(db, 'movies', editingMovieId), {
         value: title,
         value_lowercase: title.toLowerCase(),
         genre,
-        runtime
+        runtime,
+        additionalInfo
       });
-      
       setEditingMovieId(null);
-      setEditedMovie({ title: '', genre: '', runtime: '' });
+      setEditedMovie({ title: '', genre: '', runtime: '', additionalInfo: '' });
       setExpandedItem(null);
     } catch (error) {
       console.error("Error updating movie:", error);
     }
   };
 
-  // TV Show handlers
   const handleAddTvShow = async () => {
     try {
-      const title = safeStr(tvShowInputs.title);
-      const genre = safeStr(tvShowInputs.genre);
-      const runtime = safeStr(tvShowInputs.runtime);
-
-      await addDoc(collection(db, 'tvShows'), { 
+      const { title, genre, runtime } = tvShowInputs;
+      await addDoc(collection(db, 'tvShows'), {
         value: title,
         value_lowercase: title.toLowerCase(),
         genre,
-        runtime
+        runtime,
+        additionalInfo: ''
       });
-      
       setTvShowInputs({ title: '', genre: '', runtime: '' });
     } catch (error) {
       console.error("Error adding TV show:", error);
@@ -278,12 +273,13 @@ function App() {
     }
   };
 
-  const handleEditTvShow = (id, currentValue, currentGenre, currentRuntime) => {
+  const handleEditTvShow = (id, currentValue, currentGenre, currentRuntime, currentAdditionalInfo) => {
     setEditingTvShowId(id);
     setEditedTvShow({
       title: safeStr(currentValue),
       genre: safeStr(currentGenre),
-      runtime: safeStr(currentRuntime)
+      runtime: safeStr(currentRuntime),
+      additionalInfo: safeStr(currentAdditionalInfo)
     });
     setExpandedItem(id);
   };
@@ -294,19 +290,16 @@ function App() {
 
   const handleSaveTvShowEdit = async () => {
     try {
-      const title = safeStr(editedTvShow.title);
-      const genre = safeStr(editedTvShow.genre);
-      const runtime = safeStr(editedTvShow.runtime);
-
-      await updateDoc(doc(db, 'tvShows', editingTvShowId), { 
+      const { title, genre, runtime, additionalInfo } = editedTvShow;
+      await updateDoc(doc(db, 'tvShows', editingTvShowId), {
         value: title,
         value_lowercase: title.toLowerCase(),
         genre,
-        runtime
+        runtime,
+        additionalInfo
       });
-      
       setEditingTvShowId(null);
-      setEditedTvShow({ title: '', genre: '', runtime: '' });
+      setEditedTvShow({ title: '', genre: '', runtime: '', additionalInfo: '' });
       setExpandedItem(null);
     } catch (error) {
       console.error("Error updating TV show:", error);
@@ -316,7 +309,6 @@ function App() {
   return (
     <div className="App">
       <h1>To Watch List</h1>
-
       {user ? (
         <div>
           <div className="welcome-container">
@@ -325,7 +317,6 @@ function App() {
           </div>
 
           <div className="lists-container">
-            {/* Movie List Section */}
             <div className="list-section">
               <h2>Movies</h2>
               <AddItemForm 
@@ -344,11 +335,7 @@ function App() {
                     handleEdit={handleEditMovie}
                     handleRemove={handleRemoveMovie}
                     editMode={editingMovieId === item.id}
-                    editData={{ 
-                      title: editedMovie.title, 
-                      genre: editedMovie.genre, 
-                      runtime: editedMovie.runtime 
-                    }}
+                    editData={editedMovie}
                     handleEditChange={handleEditMovieChange}
                     handleSaveEdit={handleSaveMovieEdit}
                   />
@@ -356,7 +343,6 @@ function App() {
               </ul>
             </div>
 
-            {/* TV Show List Section */}
             <div className="list-section">
               <h2>TV Shows</h2>
               <AddItemForm 
@@ -375,11 +361,7 @@ function App() {
                     handleEdit={handleEditTvShow}
                     handleRemove={handleRemoveTvShow}
                     editMode={editingTvShowId === item.id}
-                    editData={{ 
-                      title: editedTvShow.title, 
-                      genre: editedTvShow.genre, 
-                      runtime: editedTvShow.runtime 
-                    }}
+                    editData={editedTvShow}
                     handleEditChange={handleEditTvShowChange}
                     handleSaveEdit={handleSaveTvShowEdit}
                   />
