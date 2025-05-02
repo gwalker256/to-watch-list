@@ -1,6 +1,7 @@
 // Import Firebase Admin SDK and other necessary modules
 const admin = require("firebase-admin");
 const fs = require("fs");
+const path = require("path");
 
 // Set the DEBUG environment variable to empty to silence unnecessary logs
 process.env.DEBUG = '';
@@ -36,9 +37,22 @@ async function exportFirestore() {
     data[collection.id] = snapshot.docs.map(doc => doc.data());
   }
 
-  // Write the exported data to a JSON file
-  fs.writeFileSync("firestore-export.json", JSON.stringify(data, null, 2));
-  console.log("✅ Firestore export complete!");
+  // Create the 'database-backups' folder if it doesn't exist
+  const backupFolder = './database-backups';
+  if (!fs.existsSync(backupFolder)) {
+    fs.mkdirSync(backupFolder);
+  }
+
+  // Get the current timestamp to create a unique filename
+  const timestamp = new Date().toISOString().replace(/[-T:.]/g, '_'); // Example: "2025_05_02_140300"
+  const filename = `firestore-export-${timestamp}.json`;
+
+  // Define the full path for the backup file inside the 'database-backups' folder
+  const filePath = path.join(backupFolder, filename);
+
+  // Write the exported data to a JSON file with the timestamped filename
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+  console.log(`✅ Firestore export complete! File saved as ${filePath}`);
 }
 
 // Execute the Firestore export
