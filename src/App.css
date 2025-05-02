@@ -216,7 +216,7 @@ button {
 }
 
 .edit-btn {
-  background: linear-gradient(135deg, #ff79c6, #ffb6e6);
+  /* background: linear-gradient(135deg, #ff79c6, #ffb6e6); */
   color: #0d0d0d;
   padding: 4px 8px;
   font-size: 0.8rem;
@@ -331,13 +331,7 @@ button {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .edit-btn {
-    background: linear-gradient(135deg, #ff79c6, #ffb6e6) !important;
-    color: #0d0d0d !important;
-    box-shadow: 0 2px 6px rgba(255, 121, 198, 0.4) !important;
-  }
-}
+
 
 .edit-button-row {
   display: flex;
