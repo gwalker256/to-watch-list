@@ -3,10 +3,8 @@ import { db, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, upd
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import './App.css';
 
-// Common utility functions
 const safeStr = (value) => value || '';
 
-  // Reusable MediaItem component
 const MediaItem = memo(({ 
   item, 
   expandedItem, 
@@ -50,7 +48,18 @@ const MediaItem = memo(({
             onChange={(e) => handleEditChange('additionalInfo', e.target.value)}
             placeholder="Notes"
           />
-          <button className="save-btn" onClick={handleSaveEdit}>Save</button>
+          <div className="edit-actions">
+            <button className="save-btn" onClick={handleSaveEdit}>Save</button>
+            <button 
+              className="delete-btn" 
+              onClick={(e) => {
+                e.stopPropagation();
+                handleRemove(item.id);
+              }}
+            >
+              Delete
+            </button>
+          </div>
         </div>
       ) : (
         <>
@@ -65,15 +74,6 @@ const MediaItem = memo(({
                 }}
               >
                 Edit
-              </button>
-              <button 
-                className="remove-btn" 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleRemove(item.id);
-                }}
-              >
-                ❌
               </button>
             </div>
           </div>
@@ -100,6 +100,8 @@ const MediaItem = memo(({
     </li>
   );
 });
+
+
 
 // Reusable input form
 const AddItemForm = ({ inputs, setInputs, handleAdd, type }) => {
