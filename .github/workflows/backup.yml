@@ -1,17 +1,33 @@
 name: Backup
-on: [workflow_dispatch]
+
+on:
+  workflow_dispatch:  # Trigger manually or schedule later
+
 jobs:
   backup:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      # Check out the repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm install firebase-admin
+
+      # Install firebase-admin
+      - name: Install dependencies
+        run: npm install firebase-admin
+
+      # Debugging step: List files to ensure the script is found
       - name: Debug - List files
         run: ls -la
-      - name: Run Backup
+
+      # Run the Firestore export script
+      - name: Run Firestore backup
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: node export-firestore.js
