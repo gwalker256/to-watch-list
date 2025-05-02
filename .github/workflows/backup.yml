@@ -1,44 +1,48 @@
-name: Backup
+name: Firestore Export
 
 on:
-  workflow_dispatch:  # Trigger manually or schedule later
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday at midnight UTC
 
 jobs:
-  backup:
+  export:
     runs-on: ubuntu-latest
-
+    timeout-minutes: 30  # Add timeout to prevent hanging
+    
     steps:
-      # 1. Check out the repository code
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      # 2. Set up Node.js
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: '20'
-
-      # 3. Install firebase-admin
+          node-version: '18'
+          cache: 'npm'
+      
       - name: Install dependencies
-        run: npm install firebase-admin
-
-      # 4. Debug: List files to ensure the script is present
-      - name: Debug - List files
-        run: ls -la
-
-      # 5. Create the service-account.json file from the secret, preserving formatting
-      - name: Create Firebase service account credentials
+        run: npm install @google-cloud/firestore fs-extra
+        
+      - name: Create service account key file
         run: |
-          cat <<EOF > service-account.json
-          ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          EOF
-
-      # 6. Debug: Verify the service-account.json content
-      - name: Debug - Show first lines of credentials
-        run: head -n 5 service-account.json
-
-      # 7. Run the Firestore export script, using ADC
-      - name: Run Firestore backup
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ./service-account.json
+          mkdir -p .credentials
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > .credentials/service-account.json
+          # Validate JSON format
+          jq empty .credentials/service-account.json || (echo "❌ Invalid JSON" && exit 1)
+      
+      - name: Set Google Application Credentials
+        run: echo "GOOGLE_APPLICATION_CREDENTIALS=${{ github.workspace }}/.credentials/service-account.json" >> $GITHUB_ENV
+      
+      - name: Export Firestore data
         run: node export-firestore.js
+      
+      - name: Archive Firestore export
+        uses: actions/upload-artifact@v3
+        with:
+          name: firestore-export-$(date -u +'%Y-%m-%d')
+          path: ./firestore-export
+          retention-days: 14
+          
+      - name: Cleanup credentials  # Security best practice
+        if: always()
+        run: rm -rf .credentials
