@@ -325,7 +325,8 @@ body {
 
 @media (prefers-color-scheme: dark) {
   .edit-btn {
-    background: linear-gradient(135deg, #ff79c6, #ffb6e6); /* Same as default */
-    color: #0d0d0d; /* Ensure text color stays the same */
+    background: linear-gradient(135deg, #ff79c6, #ffb6e6) !important;
+    color: #0d0d0d !important; 
+    box-shadow: 0 2px 6px rgba(255, 121, 198, 0.4) !important;  /* Keep shadow in dark mode */
   }
 }
