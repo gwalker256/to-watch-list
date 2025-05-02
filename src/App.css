@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-/* Dark Theme with Pink Text - Fully Responsive */
 .App {
   font-family: 'Poppins', sans-serif;
   text-align: center;
@@ -24,7 +23,6 @@ h2 {
   margin-bottom: 15px;
 }
 
-/* Auth Container */
 .auth-container {
   width: 100%;
   max-width: 320px;
@@ -36,7 +34,6 @@ h2 {
   border: 1px solid #333;
 }
 
-/* Input Fields */
 input {
   width: 100%;
   padding: 10px;
@@ -52,31 +49,29 @@ input {
 input:focus {
   border-color: #bd93f9;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(189, 147, 249, 0.3);
+  box-shadow: none;
 }
 
-/* Buttons */
 button {
   padding: 10px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   font-size: clamp(0.8rem, 3vw, 0.9rem);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   background-color: #bd93f9;
   color: #282a36;
   font-weight: 500;
   box-sizing: border-box;
   line-height: 1;
+  box-shadow: 0 2px 6px rgba(189, 147, 249, 0.4);
 }
 
-button:hover {
-  transform: translateY(-1px);
-}
+
 
 .input-container {
   display: flex;
-  align-items: center; /* Ensures vertical centering */
+  align-items: center;
 }
 
 .input-container input,
@@ -100,13 +95,10 @@ button:hover {
   background-color: #bd93f9;
   color: #282a36;
   font-weight: 500;
-  line-height: 1; /* Prevent vertical shifting */
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
-
 
 @media (max-width: 375px) {
   .input-container {
@@ -120,7 +112,6 @@ button:hover {
   }
 }
 
-/* Welcome Section */
 .welcome-container {
   display: flex;
   flex-direction: column;
@@ -142,10 +133,12 @@ button:hover {
   background-color: #ff5555;
   color: white;
   width: 100%;
-  max-width: 120px;
+  max-width: 100px;
+  box-shadow: none;
+  padding: 5px;
+
 }
 
-/* Lists Container */
 .lists-container {
   display: flex;
   flex-direction: column;
@@ -162,7 +155,6 @@ button:hover {
   box-sizing: border-box;
 }
 
-/* List Items */
 ul {
   list-style: none;
   padding: 0;
@@ -178,6 +170,7 @@ li {
   background-color: #2d2d2d;
   border-radius: 5px;
   border: 1px solid #444;
+  max-height: 20px;
 }
 
 .content-wrapper {
@@ -191,20 +184,38 @@ li {
 
 .button-container {
   display: flex;
-  gap: 5px;
+  gap: 0;
+  margin-left: auto;
+  min-width: 85px;
 }
 
-/* Special Buttons */
 .edit-btn {
-  background-color: #ff9ff3;
+  background: linear-gradient(135deg, #ff79c6, #ffb6e6);
   color: #0d0d0d;
   padding: 4px 8px;
   font-size: 0.8rem;
+  border-radius: 6px;
+  margin-right: 4px;
+  transition: box-shadow 0.2s ease;
+}
+
+.edit-btn:hover {
+  box-shadow: 0 0 6px rgba(255, 121, 198, 0.5);
 }
 
 .save-btn {
-  background-color: #50fa7b;
-  padding: 4px 8px;
+  background: linear-gradient(135deg, #50fa7b, #8affc1);
+  padding: 4px 6px;
+  color: #0d0d0d;
+  font-weight: 500;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: box-shadow 0.2s ease;
+}
+
+.save-btn:hover {
+  box-shadow: 0 0 6px rgba(80, 250, 123, 0.5);
 }
 
 .remove-btn {
@@ -213,9 +224,10 @@ li {
   color: #ff5555;
   font-size: 0.9rem;
   padding: 0 3px;
+  margin-left: auto;
+  box-shadow: none;
 }
 
-/* Tablet/Desktop Layout */
 @media (min-width: 768px) {
   .lists-container {
     flex-direction: row;
@@ -235,7 +247,6 @@ li {
   }
 }
 
-/* Glow Animation */
 @keyframes subtleGlow {
   0% { text-shadow: 0 0 8px rgba(255, 121, 198, 0.3); }
   50% { text-shadow: 0 0 12px rgba(255, 121, 198, 0.5); }
@@ -243,5 +254,22 @@ li {
 }
 
 input::placeholder {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
+
+li input[type="text"] {
+  font-size: 0.9rem;
+  padding: 6px 8px;
+  height: auto;
+  margin: -6px -8px;
+  width: calc(100% + 16px);
+  background-color: transparent;
+  color: #ff79c6;
+  border: none;
+  text-align: center;
+  margin-left: -16px;
+  font-family: 'Poppins', sans-serif;
+  line-height: normal;
+  -webkit-font-smoothing: antialiased;
+}
+
