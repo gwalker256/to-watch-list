@@ -29,5 +29,5 @@ jobs:
       # Run the Firestore export script
       - name: Run Firestore backup
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}  # Ensure the secret is loaded here
         run: node export-firestore.js

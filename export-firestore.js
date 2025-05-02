@@ -3,8 +3,10 @@ const fs = require("fs");
 
 process.env.DEBUG = ''; // Silence logs
 
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+
 admin.initializeApp({
-  credential: admin.credential.cert(require("./service-account.json")),
+  credential: admin.credential.cert(serviceAccount),
 });
 
 async function exportFirestore() {
