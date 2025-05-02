@@ -1,24 +1,15 @@
 const admin = require("firebase-admin");
 const fs = require("fs");
 
-process.env.DEBUG = ''; // Silence logs
-
-// Ensure that FIREBASE_SERVICE_ACCOUNT is available in environment
-if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
-  console.error("Error: FIREBASE_SERVICE_ACCOUNT is not set.");
-  process.exit(1);
-}
-
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-
+// Initialize Firebase Admin using Application Default Credentials
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.applicationDefault(),
 });
 
 async function exportFirestore() {
   try {
     const db = admin.firestore();
-    db._settings = { autoPaginate: false }; // Fix warning
+    db._settings = { autoPaginate: false }; // Suppress pagination warning
 
     const collections = await db.listCollections();
     const data = {};
@@ -32,7 +23,7 @@ async function exportFirestore() {
     console.log("✅ Firestore export complete!");
   } catch (error) {
     console.error("Error during Firestore export:", error);
-    process.exit(1); // Exit with an error status
+    process.exit(1);
   }
 }
 
