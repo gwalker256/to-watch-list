@@ -7,6 +7,7 @@
   padding: 15px;
   min-height: 100vh;
   color: #ff79c6;
+
 }
 
 h1 {
@@ -18,12 +19,13 @@ h1 {
 }
 
 h2 {
-  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  font-size: clamp(1.4rem, 3vw, 1.5rem);
   color: #ff79c6;
-  margin-bottom: 15px;
+margin: 0px;
 }
 
 .auth-container {
+  margin: 0 auto;
   width: 100%;
   max-width: 320px;
   margin: 0 auto;
@@ -32,6 +34,11 @@ h2 {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   border: 1px solid #333;
+
+
+
+
+
 }
 
 input {
@@ -67,11 +74,12 @@ button {
   box-shadow: 0 2px 6px rgba(189, 147, 249, 0.4);
 }
 
-
-
+/* ✅ FIXED: Keep buttons and inputs in one line */
 .input-container {
   display: flex;
   align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
 }
 
 .input-container input,
@@ -83,13 +91,18 @@ button {
   box-sizing: border-box;
 }
 
+/* ✅ FIXED: Prevent input from overflowing */
 .input-container input {
+  flex: 1;
+  min-width: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   margin-right: -1px;
 }
 
+/* ✅ FIXED: Prevent button from shrinking */
 .input-container button {
+  flex-shrink: 0;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   background-color: #bd93f9;
@@ -100,7 +113,8 @@ button {
   justify-content: center;
 }
 
-@media (max-width: 375px) {
+/* ✅ FIXED: Trigger column layout only on very small screens */
+@media (max-width: 340px) {
   .input-container {
     flex-direction: column;
   }
@@ -109,6 +123,7 @@ button {
   .input-container button {
     border-radius: 5px;
     margin-right: 0;
+    width: 100%;
   }
 }
 
@@ -136,7 +151,6 @@ button {
   max-width: 100px;
   box-shadow: none;
   padding: 5px;
-
 }
 
 .lists-container {
@@ -273,3 +287,38 @@ li input[type="text"] {
   -webkit-font-smoothing: antialiased;
 }
 
+body {
+  margin: 0;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid #333;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+@media (max-width: 375px) {
+  .auth-container {
+    margin: 0 10px; /* Prevent content from touching screen edge */
+  }
+}
+
+/* Center the sign-in form horizontally */
+
+.auth-container {
+  margin: 0 auto; /* Centers the container horizontally */
+  width: 90%; /* Makes the container responsive */
+  max-width: 400px; /* Limits the max width */
+  padding: 20px;
+
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
