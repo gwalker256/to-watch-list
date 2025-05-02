@@ -470,3 +470,21 @@ button {
 .edit-actions button {
   font-size: 0.85rem;
 }
+
+.auth-container {
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box; /* Ensure padding doesn't increase width */
+}
+
+/* New or updated rule for smaller screens */
+@media (max-width: 360px) {
+  .auth-container {
+    padding: 15px;
+    margin: 0 10px;
+    width: auto;
+    max-width: none;
+  }
+}
