@@ -16,14 +16,20 @@ const MediaItem = memo(({
   handleEditChange, 
   handleSaveEdit 
 }) => {
+  const handleItemClick = (e) => {
+    // Only toggle if not clicking a button or input
+    if (!e.target.closest('button') && !e.target.closest('input')) {
+      toggleExpand(item.id);
+    }
+  };
+
   return (
     <li 
-      key={item.id} 
-      className={expandedItem === item.id ? 'expanded' : ''}
-      onClick={() => toggleExpand(item.id)}
+      className={`media-item ${expandedItem === item.id ? 'expanded' : ''}`}
+      onClick={handleItemClick}
     >
       {editMode ? (
-        <div className="edit-container" onClick={(e) => e.stopPropagation()}>
+        <div className="edit-container">
           <input
             type="text"
             value={editData.title}
@@ -63,47 +69,46 @@ const MediaItem = memo(({
         </div>
       ) : (
         <>
-          <div className="item-header">
-            <span className="item-title">{item.value}</span>
-            <div className="button-container" onClick={(e) => e.stopPropagation()}>
-              <button 
-                className="edit-btn" 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleEdit(item.id, item.value, item.genre, item.runtime, item.additionalInfo);
-                }}
-              >
-                Edit
-              </button>
+          <div className="item-content">
+            <div className="item-header">
+              <span className="item-title">{item.value}</span>
+              <div className="button-container">
+                <button 
+                  className="edit-btn" 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEdit(item.id, item.value, item.genre, item.runtime, item.additionalInfo);
+                  }}
+                >
+                  Edit
+                </button>
+              </div>
             </div>
+            {expandedItem === item.id && (
+              <div className="item-details">
+                <div className="detail-row">
+                  <span className="detail-label">Genre: </span>
+                  <span className="detail-value">{item.genre}</span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">Length: </span>
+                  <span className="detail-value">
+                    {/^\d+$/.test(item.runtime) ? `${item.runtime} mins` : item.runtime}
+                  </span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">Notes: </span>
+                  <span className="detail-value">{item.additionalInfo || ''}</span>
+                </div>
+              </div>
+            )}
           </div>
-          {expandedItem === item.id && (
-            <div className="item-details">
-              <div className="detail-row">
-                <span className="detail-label">Genre: </span>
-                <span className="detail-value">{item.genre}</span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Length: </span>
-                <span className="detail-value">
-                  {/^\d+$/.test(item.runtime) ? `${item.runtime} mins` : item.runtime}
-                </span>
-              </div>
-              <div className="detail-row">
-                <span className="detail-label">Notes: </span>
-                <span className="detail-value">{item.additionalInfo || ''}</span>
-              </div>
-            </div>
-          )}
         </>
       )}
     </li>
   );
 });
 
-
-
-// Reusable input form
 const AddItemForm = ({ inputs, setInputs, handleAdd, type }) => {
   const handleChange = (field, value) => {
     setInputs({ ...inputs, [field]: value });
@@ -134,7 +139,6 @@ const AddItemForm = ({ inputs, setInputs, handleAdd, type }) => {
   );
 };
 
-// Main media list component
 const MediaList = ({ 
   title, 
   items, 
@@ -177,7 +181,6 @@ const MediaList = ({
   </div>
 );
 
-// Authentication form component
 const AuthForm = ({ authInputs, handleAuthChange, handleSignIn }) => (
   <div className="auth-container">
     <h2>Sign In</h2>
@@ -201,14 +204,12 @@ const AuthForm = ({ authInputs, handleAuthChange, handleSignIn }) => (
   </div>
 );
 
-// Custom hook for handling media data (movies or TV shows)
 const useMediaData = (collectionName) => {
   const [items, setItems] = useState([]);
   const [inputs, setInputs] = useState({ title: '', genre: '', runtime: '' });
   const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({ title: '', genre: '', runtime: '', additionalInfo: '' });
 
-  // Add item handler
   const handleAdd = useCallback(async () => {
     if (!inputs.title.trim()) return;
     try {
@@ -226,7 +227,6 @@ const useMediaData = (collectionName) => {
     }
   }, [collectionName, inputs]);
 
-  // Remove item handler
   const handleRemove = useCallback(async (id) => {
     try {
       await deleteDoc(doc(db, collectionName, id));
@@ -235,7 +235,6 @@ const useMediaData = (collectionName) => {
     }
   }, [collectionName]);
 
-  // Edit item handler
   const handleEdit = useCallback((id, currentValue, currentGenre, currentRuntime, currentAdditionalInfo) => {
     setEditingId(id);
     setEditData({
@@ -246,12 +245,10 @@ const useMediaData = (collectionName) => {
     });
   }, []);
 
-  // Edit change handler
   const handleEditChange = useCallback((field, value) => {
     setEditData(prev => ({ ...prev, [field]: value }));
   }, []);
 
-  // Save edit handler
   const handleSaveEdit = useCallback(async () => {
     if (!editData.title.trim()) return;
     try {
@@ -270,12 +267,19 @@ const useMediaData = (collectionName) => {
     }
   }, [collectionName, editData, editingId]);
 
+  useEffect(() => {
+    const q = query(collection(db, collectionName), orderBy('value_lowercase'));
+    return onSnapshot(q, (snapshot) => {
+      setItems(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })));
+    });
+  }, [collectionName]);
+
   return {
     items,
-    setItems,
     inputs,
     setInputs,
     editingId,
+    setEditingId,
     editData,
     handleAdd,
     handleRemove,
@@ -289,19 +293,29 @@ function App() {
   const [expandedItem, setExpandedItem] = useState(null);
   const [user, setUser] = useState(null);
   const [authInputs, setAuthInputs] = useState({ email: '', password: '' });
-  
   const auth = getAuth();
 
-  // Toggle item expansion
   const toggleExpand = useCallback((id) => {
     setExpandedItem(prevId => prevId === id ? null : id);
   }, []);
 
-  // Setup media data hooks
   const movies = useMediaData('movies');
   const tvShows = useMediaData('tvShows');
 
-  // Auth related handlers
+  // Fixed click-away logic
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest('.media-item')) {
+        setExpandedItem(null);
+        movies.setEditingId(null);
+        tvShows.setEditingId(null);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [movies, tvShows]);
+
   const handleAuthChange = useCallback((field, value) => {
     setAuthInputs(prev => ({ ...prev, [field]: value }));
   }, []);
@@ -312,7 +326,7 @@ function App() {
       await signInWithEmailAndPassword(auth, authInputs.email, authInputs.password);
       setAuthInputs({ email: '', password: '' });
     } catch (error) {
-      console.error("Error signing in:", error.message);
+      console.error("Sign in failed:", error);
     }
   }, [auth, authInputs]);
 
@@ -320,60 +334,26 @@ function App() {
     try {
       await signOut(auth);
     } catch (error) {
-      console.error("Error signing out:", error.message);
+      console.error("Sign out error:", error);
     }
   }, [auth]);
 
-  // Setup Firebase listeners
   useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, setUser);
-
-    const setupListListener = (collectionName, setterFn) => {
-      const q = query(collection(db, collectionName), orderBy('value_lowercase'));
-      return onSnapshot(q, (snapshot) => {
-        setterFn(snapshot.docs.map((doc) => ({ 
-          id: doc.id, 
-          value: doc.data().value, 
-          genre: doc.data().genre, 
-          runtime: doc.data().runtime,
-          additionalInfo: doc.data().additionalInfo || ''
-        })));
-      });
-    };
-
-    const unsubscribeMovies = setupListListener('movies', movies.setItems);
-    const unsubscribeTvShows = setupListListener('tvShows', tvShows.setItems);
-
-    return () => {
-      unsubscribeMovies();
-      unsubscribeTvShows();
-      unsubscribeAuth();
-    };
-  }, [auth, movies.setItems, tvShows.setItems]);
-
-  // Set expandedItem when editing
-  useEffect(() => {
-    if (movies.editingId) setExpandedItem(movies.editingId);
-    if (tvShows.editingId) setExpandedItem(tvShows.editingId);
-  }, [movies.editingId, tvShows.editingId]);
-
-  // Reset expandedItem when saving
-  useEffect(() => {
-    if (!movies.editingId && !tvShows.editingId) setExpandedItem(null);
-  }, [movies.editingId, tvShows.editingId]);
+    const unsub = onAuthStateChanged(auth, setUser);
+    return unsub;
+  }, [auth]);
 
   return (
     <div className="App">
       <h1>To Watch List</h1>
       {user ? (
-        <div>
+        <>
           <div className="welcome-container">
             <p>Welcome, {user.email}!</p>
             <button className="sign-out" onClick={handleSignOut}>Sign Out</button>
           </div>
-
           <div className="lists-container">
-            <MediaList 
+            <MediaList
               title="Movies"
               items={movies.items}
               expandedItem={expandedItem}
@@ -388,8 +368,7 @@ function App() {
               handleEditChange={movies.handleEditChange}
               handleSaveEdit={movies.handleSaveEdit}
             />
-
-            <MediaList 
+            <MediaList
               title="TV Shows"
               items={tvShows.items}
               expandedItem={expandedItem}
@@ -405,9 +384,9 @@ function App() {
               handleSaveEdit={tvShows.handleSaveEdit}
             />
           </div>
-        </div>
+        </>
       ) : (
-        <AuthForm 
+        <AuthForm
           authInputs={authInputs}
           handleAuthChange={handleAuthChange}
           handleSignIn={handleSignIn}
