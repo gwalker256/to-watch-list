@@ -29,7 +29,7 @@ const MediaItem = ({ item, expandedItem, toggleExpand, handleEdit, handleRemove,
             type="text"
             value={editData.runtime}
             onChange={(e) => handleEditChange('runtime', e.target.value)}
-            placeholder="Length (min)"
+            placeholder="Length"
           />
           <button className="save-btn" onClick={handleSaveEdit}>Save</button>
         </div>
@@ -100,7 +100,7 @@ const AddItemForm = ({ inputs, setInputs, handleAdd, type }) => {
         type="text"
         value={inputs.runtime}
         onChange={(e) => handleChange('runtime', e.target.value)}
-        placeholder="Length (min)"
+        placeholder="Length"
       />
       <button onClick={handleAdd}>Add {type}</button>
     </div>
