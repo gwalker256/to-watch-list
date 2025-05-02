@@ -43,3 +43,4 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS: './service-account.json'  # Point to the generated file
         run: node export-firestore.js
+
