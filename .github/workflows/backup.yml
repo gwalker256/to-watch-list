@@ -8,39 +8,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Check out the repository code
+      # 1. Check out the repository code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Set up Node.js
+      # 2. Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # Install firebase-admin
+      # 3. Install firebase-admin
       - name: Install dependencies
         run: npm install firebase-admin
 
-      # Debugging step: List files to ensure the script is found
+      # 4. Debug: List files to ensure the script is present
       - name: Debug - List files
         run: ls -la
 
-      # Create the Firebase service account credentials from secret and set the environment variable
+      # 5. Create the service-account.json file from the secret, preserving formatting
       - name: Create Firebase service account credentials
-        run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" > service-account.json
+        run: |
+          cat <<EOF > service-account.json
+          ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          EOF
 
-      # Debugging step: Check if the service-account.json file exists
-      - name: Verify service account file exists
-        run: ls -la service-account.json
+      # 6. Debug: Verify the service-account.json content
+      - name: Debug - Show first lines of credentials
+        run: head -n 5 service-account.json
 
-      # Debugging step: Print the first few lines of the service account file to check the content
-      - name: Display service account file content
-        run: head -n 10 service-account.json  # Prints first 10 lines for verification
-
-      # Run the Firestore export script
+      # 7. Run the Firestore export script, using ADC
       - name: Run Firestore backup
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: './service-account.json'  # Point to the generated file
+          GOOGLE_APPLICATION_CREDENTIALS: ./service-account.json
         run: node export-firestore.js
-
