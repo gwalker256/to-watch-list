@@ -6,8 +6,8 @@ import './App.css';
 
 const MediaItem = ({ item, expandedItem, toggleExpand, handleEdit, handleRemove, editMode, editData, handleEditChange, handleSaveEdit }) => {
   return (
-    <li 
-      key={item.id} 
+    <li
+      key={item.id}
       className={expandedItem === item.id ? 'expanded' : ''}
       onClick={() => toggleExpand(item.id)}
     >
@@ -44,8 +44,8 @@ const MediaItem = ({ item, expandedItem, toggleExpand, handleEdit, handleRemove,
           <div className="item-header">
             <span className="item-title">{item.value}</span>
             <div className="button-container" onClick={(e) => e.stopPropagation()}>
-              <button 
-                className="edit-btn" 
+              <button
+                className="edit-btn"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleEdit(item.id, item.value, item.genre, item.runtime, item.additionalInfo);
@@ -53,8 +53,8 @@ const MediaItem = ({ item, expandedItem, toggleExpand, handleEdit, handleRemove,
               >
                 Edit
               </button>
-              <button 
-                className="remove-btn" 
+              <button
+                className="remove-btn"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleRemove(item.id);
@@ -72,7 +72,9 @@ const MediaItem = ({ item, expandedItem, toggleExpand, handleEdit, handleRemove,
               </div>
               <div className="detail-row">
                 <span className="detail-label">Length: </span>
-                <span className="detail-value">{item.runtime} minutes</span>
+                <span className="detail-value">
+                  {/^\d+$/.test(item.runtime) ? `${item.runtime} mins` : item.runtime}
+                </span>
               </div>
               <div className="detail-row">
                 <span className="detail-label">Notes: </span>
@@ -143,14 +145,14 @@ function App() {
     const setupListListener = (collectionName, setterFn) => {
       const q = query(collection(db, collectionName), orderBy('value_lowercase'));
       return onSnapshot(q, (snapshot) => {
-        setterFn(snapshot.docs.map((doc) => ({ 
-          id: doc.id, 
-          value: doc.data().value, 
-          genre: doc.data().genre, 
+        setterFn(snapshot.docs.map((doc) => ({
+          id: doc.id,
+          value: doc.data().value,
+          genre: doc.data().genre,
           runtime: doc.data().runtime,
           additionalInfo: doc.data().additionalInfo || ''
         })));
-        
+
       });
     };
 
@@ -319,7 +321,7 @@ function App() {
           <div className="lists-container">
             <div className="list-section">
               <h2>Movies</h2>
-              <AddItemForm 
+              <AddItemForm
                 inputs={movieInputs}
                 setInputs={setMovieInputs}
                 handleAdd={handleAddMovie}
@@ -345,7 +347,7 @@ function App() {
 
             <div className="list-section">
               <h2>TV Shows</h2>
-              <AddItemForm 
+              <AddItemForm
                 inputs={tvShowInputs}
                 setInputs={setTvShowInputs}
                 handleAdd={handleAddTvShow}
