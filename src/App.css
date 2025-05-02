@@ -215,14 +215,24 @@ button {
   padding: 5px;
 }
 
+/* Default edit button style */
 .edit-btn {
-  /* background: linear-gradient(135deg, #ff79c6, #ffb6e6); */
+  background: linear-gradient(135deg, #ff79c6, #ffb6e6);
   color: #0d0d0d;
   padding: 4px 8px;
   font-size: 0.8rem;
   border-radius: 6px;
-  transition: box-shadow 0.2s ease;
+
 }
+
+/* Force the button to use a specific background-color in dark mode */
+@media (prefers-color-scheme: dark) {
+  .edit-btn {
+    background-color: #bd93f9 !important; /* Set to #bd93f9 in dark mode */
+  
+  }
+}
+
 
 .edit-btn:hover {
   box-shadow: 0 0 6px rgba(255, 121, 198, 0.5);
@@ -331,7 +341,13 @@ button {
   }
 }
 
-
+@media (prefers-color-scheme: dark) {
+  .edit-btn {
+    background: linear-gradient(135deg, #ff79c6, #ffb6e6) !important;
+    color: #0d0d0d !important;
+    box-shadow: 0 2px 6px rgba(255, 121, 198, 0.4) !important;
+  }
+}
 
 .edit-button-row {
   display: flex;
