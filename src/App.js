@@ -344,55 +344,58 @@ function App() {
   }, [auth]);
 
   return (
-    <div className="App">
-      <h1>To Watch List</h1>
-      {user ? (
-        <>
-          <div className="welcome-container">
-            <p>Welcome, {user.email}!</p>
-            <button className="sign-out" onClick={handleSignOut}>Sign Out</button>
-          </div>
-          <div className="lists-container">
-            <MediaList
-              title="Movies"
-              items={movies.items}
-              expandedItem={expandedItem}
-              toggleExpand={toggleExpand}
-              inputs={movies.inputs}
-              setInputs={movies.setInputs}
-              handleAdd={movies.handleAdd}
-              handleRemove={movies.handleRemove}
-              editingId={movies.editingId}
-              editData={movies.editData}
-              handleEdit={movies.handleEdit}
-              handleEditChange={movies.handleEditChange}
-              handleSaveEdit={movies.handleSaveEdit}
-            />
-            <MediaList
-              title="TV Shows"
-              items={tvShows.items}
-              expandedItem={expandedItem}
-              toggleExpand={toggleExpand}
-              inputs={tvShows.inputs}
-              setInputs={tvShows.setInputs}
-              handleAdd={tvShows.handleAdd}
-              handleRemove={tvShows.handleRemove}
-              editingId={tvShows.editingId}
-              editData={tvShows.editData}
-              handleEdit={tvShows.handleEdit}
-              handleEditChange={tvShows.handleEditChange}
-              handleSaveEdit={tvShows.handleSaveEdit}
-            />
-          </div>
-        </>
-      ) : (
-        <AuthForm
-          authInputs={authInputs}
-          handleAuthChange={handleAuthChange}
-          handleSignIn={handleSignIn}
+<div className="App">
+  <h1>To Watch List</h1>
+  {user ? (
+    <>
+      <div className="welcome-container">
+        <p>Welcome, {user.email}!</p>
+      </div>
+      <div className="lists-container">
+        <MediaList
+          title="Movies"
+          items={movies.items}
+          expandedItem={expandedItem}
+          toggleExpand={toggleExpand}
+          inputs={movies.inputs}
+          setInputs={movies.setInputs}
+          handleAdd={movies.handleAdd}
+          handleRemove={movies.handleRemove}
+          editingId={movies.editingId}
+          editData={movies.editData}
+          handleEdit={movies.handleEdit}
+          handleEditChange={movies.handleEditChange}
+          handleSaveEdit={movies.handleSaveEdit}
         />
-      )}
-    </div>
+        <MediaList
+          title="TV Shows"
+          items={tvShows.items}
+          expandedItem={expandedItem}
+          toggleExpand={toggleExpand}
+          inputs={tvShows.inputs}
+          setInputs={tvShows.setInputs}
+          handleAdd={tvShows.handleAdd}
+          handleRemove={tvShows.handleRemove}
+          editingId={tvShows.editingId}
+          editData={tvShows.editData}
+          handleEdit={tvShows.handleEdit}
+          handleEditChange={tvShows.handleEditChange}
+          handleSaveEdit={tvShows.handleSaveEdit}
+        />
+      </div>
+      <div className="sign-out-container">
+        <button className="sign-out" onClick={handleSignOut}>Sign Out</button>
+      </div>
+    </>
+  ) : (
+    <AuthForm
+      authInputs={authInputs}
+      handleAuthChange={handleAuthChange}
+      handleSignIn={handleSignIn}
+    />
+  )}
+</div>
+
   );
 }
 
