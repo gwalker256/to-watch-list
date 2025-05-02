@@ -1,0 +1,10 @@
+name: Backup
+on: [workflow_dispatch]
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: node export-firestore.js
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
