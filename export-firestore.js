@@ -1,128 +1,45 @@
-const { Firestore } = require('@google-cloud/firestore');
-const fs = require('fs-extra');
-const path = require('path');
+// Import Firebase Admin SDK and other necessary modules
+const admin = require("firebase-admin");
+const fs = require("fs");
 
-// Configuration
-const PROJECT_ID = 'things-to-watch-b75b6';
-const EXPORT_PATH = './firestore-export';
-const COLLECTIONS_TO_EXPORT = null;
-const BATCH_SIZE = 300;
+// Set the DEBUG environment variable to empty to silence unnecessary logs
+process.env.DEBUG = '';
 
-async function initializeFirestore() {
-  const firestoreOptions = { 
-    projectId: PROJECT_ID,
-    timestampsInSnapshots: true
-  };
+// Set the path to the service account credentials (relative to your script location)
+const serviceAccountPath = './service-account.json';
 
-  if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-    try {
-      const credentials = require(process.env.GOOGLE_APPLICATION_CREDENTIALS);
-      firestoreOptions.credentials = credentials;
-    } catch (error) {
-      console.error('Error loading credentials:', error.message);
-    }
-  }
-  
-  return new Firestore(firestoreOptions);
+// Check if the service account file exists
+if (!fs.existsSync(serviceAccountPath)) {
+  console.error("Service account file not found at:", serviceAccountPath);
+  process.exit(1);
 }
 
-async function exportCollection(firestore, collectionName) {
-  console.log(`Starting export of ${collectionName}`);
-  const exportData = [];
-  let totalExported = 0;
-  
-  try {
-    let query = firestore.collection(collectionName).limit(BATCH_SIZE);
-    let lastDoc = null;
+// Set the GOOGLE_APPLICATION_CREDENTIALS environment variable to point to your service account file
+process.env.GOOGLE_APPLICATION_CREDENTIALS = serviceAccountPath;
 
-    do {
-      const snapshot = await (lastDoc 
-        ? query.startAfter(lastDoc).get()
-        : query.get());
+// Initialize Firebase Admin SDK with the credentials directly from the service account file
+admin.initializeApp({
+  credential: admin.credential.cert(require(serviceAccountPath)),
+});
 
-      if (snapshot.empty) break;
+async function exportFirestore() {
+  const db = admin.firestore();
+  db._settings = { autoPaginate: false }; // To fix the auto-paginate warning
 
-      snapshot.forEach(doc => {
-        exportData.push({
-          id: doc.id,
-          data: doc.data()
-        });
-      });
+  // Fetch all collections in Firestore
+  const collections = await db.listCollections();
+  const data = {};
 
-      lastDoc = snapshot.docs[snapshot.docs.length - 1];
-      totalExported += snapshot.size;
-      console.log(`Exported ${totalExported} documents from ${collectionName}...`);
-      
-    } while (true);
-
-    await fs.ensureDir(EXPORT_PATH);
-    await fs.writeFile(
-      path.join(EXPORT_PATH, `${collectionName}.json`),
-      JSON.stringify(exportData, null, 2)
-    );
-    
-    console.log(`✅ Successfully exported ${totalExported} documents from ${collectionName}`);
-    return totalExported;
-    
-  } catch (error) {
-    console.error(`❌ Error exporting ${collectionName}:`, error.message);
-    await fs.appendFile(
-      path.join(EXPORT_PATH, 'export-errors.log'),
-      `${new Date().toISOString()} - ${collectionName}: ${error.stack}\n\n`
-    );
-    return 0;
+  // Loop through all collections, get their documents, and store them in an object
+  for (const collection of collections) {
+    const snapshot = await collection.get();
+    data[collection.id] = snapshot.docs.map(doc => doc.data());
   }
+
+  // Write the exported data to a JSON file
+  fs.writeFileSync("firestore-export.json", JSON.stringify(data, null, 2));
+  console.log("✅ Firestore export complete!");
 }
 
-async function main() {
-  try {
-    const firestore = await initializeFirestore();
-    
-    // Clear previous error log
-    try {
-      await fs.remove(path.join(EXPORT_PATH, 'export-errors.log'));
-    } catch (error) {
-      // Ignore if file doesn't exist
-    }
-
-    let collectionNames;
-    if (COLLECTIONS_TO_EXPORT) {
-      collectionNames = COLLECTIONS_TO_EXPORT;
-    } else {
-      const collections = await firestore.listCollections();
-      collectionNames = collections.map(col => col.id);
-      if (collectionNames.length === 0) {
-        console.log('No collections found in Firestore.');
-        return;
-      }
-    }
-
-    console.log(`Starting export of ${collectionNames.length} collection(s):\n${collectionNames.join('\n')}`);
-
-    let totalDocs = 0;
-    let successful = 0;
-    let failed = 0;
-
-    for (const collectionName of collectionNames) {
-      const count = await exportCollection(firestore, collectionName);
-      if (count > 0) {
-        successful++;
-        totalDocs += count;
-      } else {
-        failed++;
-      }
-    }
-
-    console.log('\n=== Export Summary ===');
-    console.log(`✅ Successfully exported ${successful} collections (${totalDocs} documents)`);
-    console.log(`❌ Failed to export ${failed} collections`);
-    console.log(`📂 Export directory: ${path.resolve(EXPORT_PATH)}`);
-    
-  } catch (error) {
-    console.error('❗ Fatal error during export process:', error.message);
-    process.exit(1);
-  }
-}
-
-// Run the script
-main();
+// Execute the Firestore export
+exportFirestore().catch(console.error);
