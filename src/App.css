@@ -29,7 +29,9 @@ h1, h2 {
   
 }
 
-
+button{
+  font-size: 14px;
+}
 
 h2 {
   font-size: clamp(1.5rem, 4vw, 2rem);
@@ -124,6 +126,7 @@ li.expanded {
   padding-right: 8px;
   font-size: 0.95rem;
   font-weight: 500;
+
 
 }
 
@@ -228,7 +231,7 @@ button {
   color: #000000;
   /* font-weight: 500; */
   line-height: 1;
-  font-size: 0.85rem;
+
   /* box-shadow: 0 2px 6px rgba(189, 147, 249, 0.4); */
 }
 
@@ -255,9 +258,7 @@ button {
 
 
 
-.edit-btn:hover {
-  box-shadow: 0 0 6px rgba(255, 121, 198, 0.5);
-}
+
 
 .save-btn {
   /* background: linear-gradient(135deg, #50fa7b, #8affc1); */
@@ -307,6 +308,8 @@ button {
   flex-direction: column;
   gap: 8px;
   width: 100%;
+
+
 }
 
 .edit-container input {
@@ -426,4 +429,44 @@ button {
 
 .media-item.expanded .item-title {
   color: #43ff8e;
+}
+
+/* Hide edit button by default */
+.media-item .edit-btn {
+  display: none;
+}
+
+/* Show when expanded */
+.media-item.expanded .edit-btn {
+  display: inline-block;
+}
+
+.item-header {
+  position: relative;
+  display: flex;
+  justify-content: center; /* Center the title */
+  align-items: center;
+}
+
+.item-title {
+  text-align: center;
+}
+
+.edit-btn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 24px; /* or whatever your previous button height was */
+  padding: 4px 8px; /* adjust as needed */
+  font-size: 14px; /* optional: restore previous font size */
+}
+
+.media-item.expanded .edit-btn {
+  visibility: visible;
+
+}
+
+.edit-actions button {
+  font-size: 0.85rem;
 }
