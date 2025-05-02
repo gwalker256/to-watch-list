@@ -1,15 +1,15 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';  // Add this import to access authentication methods.
+import { getAuth } from 'firebase/auth';
 
-// Your Firebase configuration
+// Use environment variables from .env
 const firebaseConfig = {
-  apiKey: "AIzaSyAlrigzobRzUQasX1sn-6kVpFK35EQRo9s",
-  authDomain: "things-to-watch-b75b6.firebaseapp.com",
-  projectId: "things-to-watch-b75b6",
-  storageBucket: "things-to-watch-b75b6.firebasestorage.app",
-  messagingSenderId: "436859718601",
-  appId: "1:436859718601:web:8bb06cea97616e00417618"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
 // Initialize Firebase
