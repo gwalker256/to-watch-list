@@ -81,8 +81,9 @@ h2 {
   width: 100%;
   padding: 15px;
   padding-top:9px ;
-  padding-bottom: 0px;
+  padding-bottom: 1px;
   box-sizing: border-box;
+
 }
 
 /* List Items */
