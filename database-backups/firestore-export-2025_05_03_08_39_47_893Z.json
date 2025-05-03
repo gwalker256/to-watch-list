@@ -1,0 +1,311 @@
+{
+  "movies": [
+    {
+      "value": "Inception",
+      "value_lowercase": "inception",
+      "additionalInfo": "",
+      "genre": "Sci-fi action",
+      "runtime": "2hr 28m"
+    },
+    {
+      "value": "The Dark and the Wicked",
+      "value_lowercase": "the dark and the wicked",
+      "genre": "Horror",
+      "runtime": "1hr 35m",
+      "additionalInfo": ""
+    },
+    {
+      "value": "Shutter Island",
+      "value_lowercase": "shutter island",
+      "additionalInfo": "",
+      "genre": "Horror/mystery",
+      "runtime": "2h 18m"
+    },
+    {
+      "value": "Count of Monte Cristo",
+      "value_lowercase": "count of monte cristo",
+      "additionalInfo": "",
+      "genre": "Action adventure",
+      "runtime": "2hr 11m"
+    },
+    {
+      "value": "Insidious",
+      "value_lowercase": "insidious",
+      "additionalInfo": "",
+      "genre": "Horror",
+      "runtime": "1hr 43m"
+    },
+    {
+      "value": "Woman in Black",
+      "value_lowercase": "woman in black",
+      "additionalInfo": "",
+      "genre": "Horror",
+      "runtime": "1hr 35m"
+    },
+    {
+      "value": "28 Years Later (release)",
+      "value_lowercase": "28 years later (release)",
+      "additionalInfo": "Releases 20 June 2025",
+      "genre": "Horror",
+      "runtime": "2hr 6m"
+    },
+    {
+      "value": "Hereditary",
+      "value_lowercase": "hereditary",
+      "additionalInfo": "",
+      "genre": "Horror mystery",
+      "runtime": "2hr 7m"
+    },
+    {
+      "value_lowercase": "final destination: bloodline",
+      "additionalInfo": "",
+      "genre": "Gory horror",
+      "runtime": "1hr 49m",
+      "value": "Final Destination: Bloodline"
+    },
+    {
+      "value": "The Grudge",
+      "value_lowercase": "the grudge",
+      "additionalInfo": "",
+      "genre": "Horror",
+      "runtime": "1hr 39m"
+    },
+    {
+      "value": "Daddy’s Head",
+      "value_lowercase": "daddy’s head",
+      "genre": "Horror",
+      "runtime": "1hr 37m",
+      "additionalInfo": ""
+    },
+    {
+      "value": "High-Rise",
+      "value_lowercase": "high-rise",
+      "additionalInfo": "",
+      "genre": "Thriller",
+      "runtime": "1hr 59m"
+    },
+    {
+      "value": "Her",
+      "value_lowercase": "her",
+      "additionalInfo": "",
+      "genre": "Sci-fi romcom ",
+      "runtime": "2hr 6m"
+    },
+    {
+      "value": "Willow",
+      "value_lowercase": "willow",
+      "additionalInfo": "",
+      "genre": "Fantasy adventure ",
+      "runtime": "2h 6m"
+    },
+    {
+      "value": "12 Years A Slave",
+      "value_lowercase": "12 years a slave",
+      "additionalInfo": "",
+      "genre": "Historical drama",
+      "runtime": "2hr 14m"
+    },
+    {
+      "value": "Interstellar",
+      "value_lowercase": "interstellar",
+      "additionalInfo": "",
+      "genre": "Sci-fi",
+      "runtime": "2h 49m"
+    },
+    {
+      "value": "Together (release)",
+      "value_lowercase": "together (release)",
+      "additionalInfo": "Body horror. Releases 21 August ",
+      "genre": "Horror",
+      "runtime": "1hr 42m"
+    },
+    {
+      "value": "Pan’s Labyrinth (Spanish)",
+      "value_lowercase": "pan’s labyrinth (spanish)",
+      "additionalInfo": "Spanish speaking, would need subs",
+      "genre": "Fantasy",
+      "runtime": "1hr 58m"
+    },
+    {
+      "value": "Alien",
+      "value_lowercase": "alien",
+      "additionalInfo": "",
+      "genre": "Sci-fi/horror",
+      "runtime": "1hr 57m"
+    },
+    {
+      "value": "Blade Runner 2049",
+      "value_lowercase": "blade runner 2049",
+      "additionalInfo": "",
+      "genre": "Sci-fi/Action",
+      "runtime": "2hr 43m"
+    },
+    {
+      "value": "Caveat",
+      "value_lowercase": "caveat",
+      "additionalInfo": "",
+      "genre": "Horror/mystery",
+      "runtime": "1hr 28m"
+    },
+    {
+      "value": "RED",
+      "value_lowercase": "red",
+      "additionalInfo": "",
+      "genre": "Action/Comedy",
+      "runtime": "1hr 51m"
+    },
+    {
+      "value": "Gravity",
+      "value_lowercase": "gravity",
+      "additionalInfo": "",
+      "genre": "Sci-fi thriller",
+      "runtime": "1hr 31m"
+    },
+    {
+      "value": "Uncut Gems",
+      "value_lowercase": "uncut gems",
+      "additionalInfo": "",
+      "genre": "Crime thriller",
+      "runtime": "2h 15m"
+    },
+    {
+      "value": "The Mummy 2",
+      "value_lowercase": "the mummy 2",
+      "additionalInfo": "",
+      "genre": "Action adventure ",
+      "runtime": "1hr 55m"
+    },
+    {
+      "value": "Longlegs",
+      "value_lowercase": "longlegs",
+      "genre": "Horror",
+      "runtime": "1h 41m",
+      "additionalInfo": ""
+    },
+    {
+      "value_lowercase": "until dawn",
+      "additionalInfo": "Based on a video game. Released April 2025",
+      "genre": "Horror",
+      "runtime": "1hr 43m",
+      "value": "Until Dawn"
+    },
+    {
+      "value_lowercase": "creep (2004)",
+      "additionalInfo": "",
+      "genre": "Horror",
+      "runtime": "1hr 24m",
+      "value": "Creep (2004)"
+    },
+    {
+      "value": "The Mummy",
+      "value_lowercase": "the mummy",
+      "additionalInfo": "",
+      "genre": "Action adventure ",
+      "runtime": "1hr 55m"
+    },
+    {
+      "value": "Bagman",
+      "value_lowercase": "bagman",
+      "genre": "Horror",
+      "runtime": "1h 32m",
+      "additionalInfo": ""
+    },
+    {
+      "value": "Around the World in 80 Days",
+      "value_lowercase": "around the world in 80 days",
+      "additionalInfo": "",
+      "genre": "Adventure comedy",
+      "runtime": "2h"
+    },
+    {
+      "value": "Joker",
+      "value_lowercase": "joker",
+      "additionalInfo": "",
+      "genre": "Thriller/Crime",
+      "runtime": "2h 2m"
+    },
+    {
+      "value": "The Woman in the Yard",
+      "value_lowercase": "the woman in the yard",
+      "genre": "Horror",
+      "runtime": "1hr 25m",
+      "additionalInfo": ""
+    }
+  ],
+  "tvShows": [
+    {
+      "value": "Fallout (Prime)",
+      "value_lowercase": "fallout (prime)",
+      "genre": "Post apocalyptic adventure comedy",
+      "additionalInfo": "1 season so far,  returning series ",
+      "runtime": "45m-1hr per episode"
+    },
+    {
+      "value": "Rome",
+      "value_lowercase": "rome",
+      "additionalInfo": "2 seasons, finished series ",
+      "genre": "Historical drama",
+      "runtime": "45m-1hr per episode "
+    },
+    {
+      "value": "Barry",
+      "value_lowercase": "barry",
+      "additionalInfo": "",
+      "genre": "Crime comedy ",
+      "runtime": "30 mins per episode"
+    },
+    {
+      "value": "Game of Thrones",
+      "value_lowercase": "game of thrones",
+      "additionalInfo": "",
+      "genre": "Fantasy",
+      "runtime": "45m-1hr per episode, 8 seasons "
+    },
+    {
+      "value": "Channel Zero",
+      "value_lowercase": "channel zero"
+    },
+    {
+      "value": "Severance",
+      "value_lowercase": "severance",
+      "additionalInfo": "2 seasons, returning series ",
+      "genre": "Sci-fi mystery",
+      "runtime": "45m-1hr per episode"
+    },
+    {
+      "value": "The Last of Us",
+      "value_lowercase": "the last of us",
+      "additionalInfo": "2 seasons, finished series",
+      "genre": "Post apocalyptic horror",
+      "runtime": "45m-1hr episodes "
+    },
+    {
+      "genre": "Animated fantasy comedy",
+      "runtime": "25m per episode",
+      "additionalInfo": "",
+      "value_lowercase": "the legend of vox machina (prime)",
+      "value": "The Legend of Vox Machina (Prime)"
+    },
+    {
+      "value": "Miracle workers",
+      "value_lowercase": "miracle workers",
+      "additionalInfo": "4 seasons, finished series ",
+      "genre": "Workplace comedy anthology",
+      "runtime": "25m per episode "
+    },
+    {
+      "value": "House of the Dragon",
+      "value_lowercase": "house of the dragon",
+      "additionalInfo": "2 seasons, returning series ",
+      "genre": "Fantasy ",
+      "runtime": "45m-1hr per episode"
+    },
+    {
+      "value": "Rings of Power (Prime)",
+      "value_lowercase": "rings of power (prime)",
+      "genre": "Fantasy",
+      "runtime": "45m-1hr per episode",
+      "additionalInfo": "2 seasons, returning series"
+    }
+  ]
+}
